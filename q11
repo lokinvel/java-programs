@@ -1,0 +1,78 @@
+EmployeeBean.java (Bean Class)
+
+
+public class EmployeeBean {
+
+    // Private variables
+    private String name;
+    private double salary;
+    private String designation;
+    private String company;
+
+    // Default constructor
+    public EmployeeBean() {
+    }
+
+    // Setter methods (set values)
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    // Getter methods (get values)
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+}
+
+TestEmployee.java (Main Class)
+
+
+public class TestEmployee {
+
+    public static void main(String[] args) {
+
+        // Create Bean Object
+        EmployeeBean emp = new EmployeeBean();
+
+        // Set values using setters
+        emp.setName("Dr. Nithyanandh Selvam");
+        emp.setSalary(75000);
+        emp.setDesignation("Professor");
+        emp.setCompany("PSG College of Arts & Science");
+
+        // Display values using getters
+        System.out.println("Employee Details");
+        System.out.println("-------------------------");
+
+        System.out.println("Name: " + emp.getName());
+        System.out.println("Salary: " + emp.getSalary());
+        System.out.println("Designation: " + emp.getDesignation());
+        System.out.println("Company: " + emp.getCompany());
+    }
+}
