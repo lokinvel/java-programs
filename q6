@@ -1,0 +1,74 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class CourseSelection extends JFrame implements ActionListener {
+
+    JCheckBox c1, c2, c3;
+    JRadioButton male, female;
+    JTextArea area;
+    JButton show;
+
+    // Constructor
+    public CourseSelection() {
+
+        // Set layout
+        setLayout(new FlowLayout());
+
+        // Create checkboxes
+        c1 = new JCheckBox("Math");
+        c2 = new JCheckBox("Science");
+        c3 = new JCheckBox("English");
+
+        // Create radio buttons
+        male = new JRadioButton("Male");
+        female = new JRadioButton("Female");
+
+        // Group radio buttons
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(male);
+        bg.add(female);
+
+        // Create button and text area
+        show = new JButton("Show");
+        area = new JTextArea(5, 20);
+
+        // Add components to frame
+        add(c1);
+        add(c2);
+        add(c3);
+        add(male);
+        add(female);
+        add(show);
+        add(area);
+
+        // Add action listener
+        show.addActionListener(this);
+
+        // Frame settings
+        setSize(300, 300);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    // Action when button is clicked
+    public void actionPerformed(ActionEvent e) {
+        String s = "Courses: ";
+
+        if (c1.isSelected())
+            s += "Math ";
+        if (c2.isSelected())
+            s += "Science ";
+        if (c3.isSelected())
+            s += "English ";
+
+        s += "\nGender: " + (male.isSelected() ? "Male" : "Female");
+
+        area.setText(s);
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        new CourseSelection();
+    }
+}
