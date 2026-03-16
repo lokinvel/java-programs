@@ -1,0 +1,18 @@
+import java.io.*;
+
+public class FileCount {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new FileReader(args[0]));
+        int chars = 0, words = 0, lines = 0;
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            lines++;
+            chars += line.length();
+            words += line.split("\\s+").length;
+        }
+
+        br.close();
+        System.out.println("Lines: " + lines + " Words: " + words + " Characters: " + chars);
+    }
+}
