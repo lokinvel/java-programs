@@ -1,0 +1,81 @@
+HTML
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Page</title>
+</head>
+
+<body>
+
+<h2>Login to System</h2>
+
+<form action="LoginServlet" method="POST">
+
+Username:
+<input type="text" name="txtUser">
+<br><br>
+
+Password:
+<input type="password" name="txtPass">
+<br><br>
+
+<input type="submit" value="Login">
+
+</form>
+
+</body>
+</html>
+
+
+
+PROGRAM
+
+package com.auth;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name="LoginServlet", urlPatterns={"/LoginServlet"})
+
+public class LoginServlet extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+                          throws ServletException, IOException {
+
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Capture form data
+        String user = request.getParameter("txtUser");
+        String pass = request.getParameter("txtPass");
+
+        PrintWriter out = response.getWriter();
+
+        out.println("<html>");
+        out.println("<body>");
+
+        // Login Validation
+        if("admin".equals(user) && "12345".equals(pass))
+        {
+            out.println("<h1>Welcome " + user + "</h1>");
+            out.println("<p>Login Successful</p>");
+        }
+        else
+        {
+            out.println("<h1 style='color:red;'>Login Failed</h1>");
+            out.println("<p>Invalid Username or Password</p>");
+            out.println("<a href='login.html'>Try Again</a>");
+        }
+
+        out.println("</body>");
+        out.println("</html>");
+    }
+}
