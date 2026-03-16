@@ -1,0 +1,36 @@
+class MessageThread extends Thread {
+    private String message;
+    private int delay; // in milliseconds
+
+    // Constructor
+    MessageThread(String message, int delay) {
+        this.message = message;
+        this.delay = delay;
+    }
+
+    // run() method
+    public void run() {
+        for (int i = 1; i <= 5; i++) {   // print 5 times
+            System.out.println(message);
+            try {
+                Thread.sleep(delay);    // pause thread
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted");
+            }
+        }
+    }
+}
+
+// Main class
+public class MainThreadDemo {
+    public static void main(String[] args) {
+
+        // Create thread objects
+        MessageThread t1 = new MessageThread("Hello", 1000);
+        MessageThread t2 = new MessageThread("Welcome", 1500);
+
+        // Start threads
+        t1.start();
+        t2.start();
+    }
+}
