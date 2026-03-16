@@ -1,0 +1,30 @@
+class Division {
+
+    // Method to perform division
+    public static int divide(int x, int y) throws Exception {
+        if (y == 0)
+            throw new Exception("Denominator cannot be zero!");
+        return x / y;
+    }
+
+    public static void main(String[] args) {
+        try {
+            // Check if two arguments are provided
+            if (args.length != 2) {
+                throw new Exception("Please provide exactly two integers.");
+            }
+
+            // Convert inputs to integers
+            int x = Integer.parseInt(args[0]);
+            int y = Integer.parseInt(args[1]);
+
+            // Perform division
+            System.out.println("Result: " + divide(x, y));
+
+        } catch (NumberFormatException e) {
+            System.out.println("Inputs must be integers!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
