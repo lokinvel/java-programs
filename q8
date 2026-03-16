@@ -1,0 +1,127 @@
+SQL
+
+CREATE DATABASE IF NOT EXISTS student_db;
+USE student_db;
+
+CREATE TABLE IF NOT EXISTS students (
+regno INT PRIMARY KEY,
+name VARCHAR(60) NOT NULL,
+dept VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS marks (
+regno INT PRIMARY KEY,
+m1 INT NOT NULL,
+m2 INT NOT NULL,
+m3 INT NOT NULL,
+m4 INT NOT NULL,
+m5 INT NOT NULL,
+FOREIGN KEY (regno) REFERENCES students(regno)
+);
+
+INSERT INTO students VALUES (105,'Arun','MCA');
+
+INSERT INTO marks VALUES (105,78,85,69,74,80);
+
+PROGRAM
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class Student {
+
+    private static final String URL = "jdbc:mysql://localhost:3306/student_db";
+    private static final String USER = "root";
+    private static final String PASS = "25mca055";
+
+    public static void main(String[] args) {
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } 
+        catch (ClassNotFoundException e) {
+            System.out.println("JDBC Driver not found.");
+            return;
+        }
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("===== STUDENT MARK LIST (JDBC) =====");
+        System.out.print("Enter Register Number: ");
+        int regno = sc.nextInt();
+
+        String sql = "SELECT s.regno, s.name, s.dept, m.m1, m.m2, m.m3, m.m4, m.m5 "
+                   + "FROM students s JOIN marks m ON s.regno = m.regno "
+                   + "WHERE s.regno = ?";
+
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, regno);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println("No student found.");
+                return;
+            }
+
+            String name = rs.getString("name");
+            String dept = rs.getString("dept");
+
+            int m1 = rs.getInt("m1");
+            int m2 = rs.getInt("m2");
+            int m3 = rs.getInt("m3");
+            int m4 = rs.getInt("m4");
+            int m5 = rs.getInt("m5");
+
+            int total = m1 + m2 + m3 + m4 + m5;
+            double avg = total / 5.0;
+
+            String result = (m1>=40 && m2>=40 && m3>=40 && m4>=40 && m5>=40) ? "PASS" : "FAIL";
+
+            String grade;
+
+            if(result.equals("FAIL"))
+                grade = "U";
+            else if(avg>=90)
+                grade = "O";
+            else if(avg>=80)
+                grade = "A+";
+            else if(avg>=70)
+                grade = "A";
+            else if(avg>=60)
+                grade = "B+";
+            else if(avg>=50)
+                grade = "B";
+            else
+                grade = "C";
+
+            System.out.println("\n===== MARK LIST =====");
+            System.out.println("Register No : " + regno);
+            System.out.println("Name        : " + name);
+            System.out.println("Department  : " + dept);
+
+            System.out.println("-------------------------");
+
+            System.out.println("Subject 1 : " + m1);
+            System.out.println("Subject 2 : " + m2);
+            System.out.println("Subject 3 : " + m3);
+            System.out.println("Subject 4 : " + m4);
+            System.out.println("Subject 5 : " + m5);
+
+            System.out.println("-------------------------");
+
+            System.out.println("Total   : " + total);
+            System.out.printf("Average : %.2f\n", avg);
+            System.out.println("Result  : " + result);
+            System.out.println("Grade   : " + grade);
+
+        }
+        catch(SQLException e){
+            System.out.println("Database Error: " + e.getMessage());
+        }
+
+        sc.close();
+    }
+}
